@@ -14,5 +14,10 @@ class Log:
     def escribir(self, tipo, mensaje):
         fecha_hora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        tipos_validos = ["INFO", "WARNING", "ERROR"]
+
+        if tipo.upper() not in tipos_validos:
+            tipo = "INFO"
+
         with open(self.ruta, "a") as fichero:
             fichero.write(f"[{fecha_hora}] [{tipo.upper()}] {mensaje}\n")
