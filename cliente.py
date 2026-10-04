@@ -52,7 +52,9 @@ def leerFichero(numCliente):
         # Guardamos el estado final del cliente
         cliente.guardar()
 
-        print("Datos del cliente cargados correctamente")
+        print(f"Cliente: {cliente.numero}")
+        print(f"Saldo cuenta: {cliente.cuenta.saldo} €")
+        print(f"Saldo depósito: {cliente.deposito.saldo} €")
 
         return cliente
 
