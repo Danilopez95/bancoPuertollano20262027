@@ -1,5 +1,6 @@
 from cliente import cargarCliente
 from logs import Log
+import os
 
 log = Log()
 
@@ -7,9 +8,10 @@ def menu():
 
     while True:
 
-        print("1) Cargar Datos Cliente")
-        print("2) Consultar cuenta Deposito")
-        print("3) Salir")
+        print("1) Cargar datos cliente")
+        print("2) Consultar cuenta y deposito")
+        print("3) Listar clientes cargados")
+        print("4) Salir")
 
         opt = input("Introduce la opción deseada: ")
 
@@ -18,13 +20,35 @@ def menu():
 
         elif opt == "2":
             cliente = cargarCliente("guardado")
-            log.escribir("INFO", f"CONSULTA DATOS CLIENTE CON NÚMERO: {cliente.numero}")
+
             if cliente is not None:
+                log.escribir(
+                    "INFO",
+                    f"CONSULTA DATOS CLIENTE CON NÚMERO: {cliente.numero}"
+                )
+
                 print(f"Cliente: {cliente.numero}")
                 print(f"Saldo cuenta: {cliente.cuenta.saldo} €")
                 print(f"Saldo depósito: {cliente.deposito.saldo} €")
+                print(f"Saldo total: {cliente.getSaldoTotal()} €")
+
+            else:
+                log.escribir(
+                    "ERROR",
+                    "INTENTO DE CONSULTAR UN CLIENTE QUE NO HA SIDO CARGADO"
+                )
+                print("No hay ningún cliente cargado")
 
         elif opt == "3":
+            print("Clientes cargados:\n")
+
+            archivos = os.listdir("datosClientes")
+
+            for archivo in archivos:
+                numero_cliente = os.path.splitext(archivo)[0]
+                print(f"- {numero_cliente}")
+
+        elif opt == "4":
             log.escribir(
                 "INFO",
                 "FIN EJECUCIÓN"

@@ -52,7 +52,7 @@ class Cliente:
 
         with open(f"datosClientes/{self.numero}.txt", "w") as f:
             f.write(
-                f"{self.numero};"
-                f"{self.cuenta.getSaldo()};"
-                f"{self.deposito.getSaldo()}"
+                f"{self.numero}\n"
+                f"{self.cuenta.getSaldo()}\n"
+                f"{self.deposito.getSaldo()}\n"
             )

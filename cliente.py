@@ -3,6 +3,7 @@ from logs import Log
 
 log = Log()
 
+
 def cargarCliente(tipo):
     while True:
         num = input("Introduce el número de cliente: ")
@@ -22,6 +23,11 @@ def leerFichero(numCliente):
 
     cliente = Cliente(numCliente)
 
+    log.escribir(
+        "INFO",
+        f"INICIO DE CARGA DEL CLIENTE: {numCliente}"
+    )
+
     try:
         with open(f"ficherosClientes/{numCliente}.txt", "r") as f:
 
@@ -31,7 +37,17 @@ def leerFichero(numCliente):
 
                 datos = linea.strip().split(";")
 
-                cantidad = float(datos[0])
+                try:
+                    cantidad = float(datos[0])
+
+                except ValueError:
+                    log.escribir(
+                        "ERROR",
+                        f"CANTIDAD INCORRECTA EN LA LINEA: {linea.strip()}"
+                    )
+                    linea = f.readline()
+                    continue
+
                 operacion = datos[1]
                 destino = datos[2]
 
@@ -47,17 +63,38 @@ def leerFichero(numCliente):
                 elif destino == "Deposito" and operacion == "Retirada":
                     cliente.deposito.retirar(cantidad)
 
+                else:
+                    log.escribir(
+                        "WARNING",
+                        f"MOVIMIENTO DESCONOCIDO: {linea.strip()}"
+                    )
+
                 linea = f.readline()
 
         # Guardamos el estado final del cliente
         cliente.guardar()
+
+        print(f"Cliente: {cliente.numero}")
+        print(f"Saldo cuenta: {cliente.cuenta.saldo} €")
+        print(f"Saldo depósito: {cliente.deposito.saldo} €")
+
+        log.escribir(
+            "INFO",
+            f"CLIENTE CARGADO CORRECTAMENTE: {numCliente}"
+        )
 
         print("Datos del cliente cargados correctamente")
 
         return cliente
 
     except FileNotFoundError:
+        log.escribir(
+            "ERROR",
+            f"FICHERO DE MOVIMIENTOS INEXISTENTE PARA EL CLIENTE: {numCliente}"
+        )
+
         print("El usuario no tiene ninguna cuenta con el banco")
+
         return None
 
 
@@ -66,13 +103,14 @@ def cargarClienteGuardado(numCliente):
     try:
         with open(f"datosClientes/{numCliente}.txt", "r") as f:
 
-            linea = f.readline()
-            datos = linea.split(";")
+            numero = f.readline().strip()
+            saldoCuenta = float(f.readline().strip())
+            saldoDeposito = float(f.readline().strip())
 
-            cliente = Cliente(datos[0])
+            cliente = Cliente(numero)
 
-            cliente.cuenta.saldo = float(datos[1])
-            cliente.deposito.saldo = float(datos[2])
+            cliente.cuenta.saldo = saldoCuenta
+            cliente.deposito.saldo = saldoDeposito
 
             return cliente
 
