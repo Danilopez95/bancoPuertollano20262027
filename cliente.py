@@ -31,6 +31,8 @@ def leerFichero(numCliente):
 
             linea = f.readline()
 
+            contador = 0
+
             while linea:
 
                 datos = linea.strip().split(";")
@@ -50,15 +52,19 @@ def leerFichero(numCliente):
 
                 if destino == "Cuenta" and operacion == "Ingreso":
                     cliente.cuenta.ingresar(cantidad)
+                    contador += 1
 
                 elif destino == "Cuenta" and operacion == "Retirada":
                     cliente.cuenta.retirar(cantidad)
+                    contador += 1
 
                 elif destino == "Deposito" and operacion == "Ingreso":
                     cliente.deposito.ingresar(cantidad)
+                    contador += 1
 
                 elif destino == "Deposito" and operacion == "Retirada":
                     cliente.deposito.retirar(cantidad)
+                    contador += 1
 
                 else:
                     log.escribir(
@@ -67,6 +73,13 @@ def leerFichero(numCliente):
                     )
 
                 linea = f.readline()
+
+            print(f"Movimientos procesados: {contador}")
+
+            log.escribir(
+                "INFO",
+                f"Movimientos procesados: {contador}"
+            )
 
         # Guardamos el estado final del cliente
         cliente.guardar()
