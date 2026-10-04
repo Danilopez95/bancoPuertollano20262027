@@ -18,11 +18,24 @@ def menu():
 
         elif opt == "2":
             cliente = cargarCliente("guardado")
+
             if cliente is not None:
-                log.escribir("INFO", f"CONSULTA DATOS CLIENTE CON NÚMERO: {cliente.numero}")
-            print(f"Cliente: {cliente.numero}")
-            print(f"Saldo cuenta: {cliente.cuenta.saldo} €")
-            print(f"Saldo depósito: {cliente.deposito.saldo} €")
+                log.escribir(
+                    "INFO",
+                    f"CONSULTA DATOS CLIENTE CON NÚMERO: {cliente.numero}"
+                )
+
+                print(f"Cliente: {cliente.numero}")
+                print(f"Saldo cuenta: {cliente.cuenta.saldo} €")
+                print(f"Saldo depósito: {cliente.deposito.saldo} €")
+                print(f"Saldo total: {cliente.getSaldoTotal()} €")
+
+            else:
+                log.escribir(
+                    "ERROR",
+                    "INTENTO DE CONSULTAR UN CLIENTE QUE NO HA SIDO CARGADO"
+                )
+                print("No hay ningún cliente cargado")
 
         elif opt == "3":
             log.escribir(
