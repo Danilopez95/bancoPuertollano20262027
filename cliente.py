@@ -3,6 +3,7 @@ from logs import Log
 
 log = Log()
 
+
 def cargarCliente(tipo):
     while True:
         num = input("Introduce el número de cliente: ")
@@ -21,6 +22,7 @@ def cargarCliente(tipo):
 def leerFichero(numCliente):
 
     cliente = Cliente(numCliente)
+
     log.escribir(
         "INFO",
         f"INICIO DE CARGA DEL CLIENTE: {numCliente}"
@@ -37,6 +39,7 @@ def leerFichero(numCliente):
 
                 try:
                     cantidad = float(datos[0])
+
                 except ValueError:
                     log.escribir(
                         "ERROR",
@@ -74,6 +77,7 @@ def leerFichero(numCliente):
         print(f"Cliente: {cliente.numero}")
         print(f"Saldo cuenta: {cliente.cuenta.saldo} €")
         print(f"Saldo depósito: {cliente.deposito.saldo} €")
+
         log.escribir(
             "INFO",
             f"CLIENTE CARGADO CORRECTAMENTE: {numCliente}"
@@ -88,7 +92,9 @@ def leerFichero(numCliente):
             "ERROR",
             f"FICHERO DE MOVIMIENTOS INEXISTENTE PARA EL CLIENTE: {numCliente}"
         )
+
         print("El usuario no tiene ninguna cuenta con el banco")
+
         return None
 
 
