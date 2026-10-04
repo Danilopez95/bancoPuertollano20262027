@@ -60,6 +60,12 @@ def leerFichero(numCliente):
                 elif destino == "Deposito" and operacion == "Retirada":
                     cliente.deposito.retirar(cantidad)
 
+                else:
+                    log.escribir(
+                        "WARNING",
+                        f"MOVIMIENTO DESCONOCIDO: {linea.strip()}"
+                    )
+
                 linea = f.readline()
 
         # Guardamos el estado final del cliente
