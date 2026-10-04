@@ -103,13 +103,14 @@ def cargarClienteGuardado(numCliente):
     try:
         with open(f"datosClientes/{numCliente}.txt", "r") as f:
 
-            linea = f.readline()
-            datos = linea.split(";")
+            numero = f.readline().strip()
+            saldoCuenta = float(f.readline().strip())
+            saldoDeposito = float(f.readline().strip())
 
-            cliente = Cliente(datos[0])
+            cliente = Cliente(numero)
 
-            cliente.cuenta.saldo = float(datos[1])
-            cliente.deposito.saldo = float(datos[2])
+            cliente.cuenta.saldo = saldoCuenta
+            cliente.deposito.saldo = saldoDeposito
 
             return cliente
 
